@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using GraphQL.Types;
 using GraphQL;
-using Bnaya.Samples.Models;
 using Bnaya.Samples.GraphQL;
 
 namespace Bnaya.Samples.Controllers
