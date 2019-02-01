@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bnaya.Samples.GraphQL
 {
-    public class GraphQlQuery
+    public class GraphQlQueryParameters
     {
         public string OperationName { get; set; }
         public string NamedQuery { get; set; }

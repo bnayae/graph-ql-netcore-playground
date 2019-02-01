@@ -19,6 +19,10 @@ namespace Bnaya.Samples.GraphQL
         {
             Field<ListGraphType<TodoType>>("todos", resolve: GetAllTodosAsync);
             Field<ListGraphType<UserType>>("users", resolve: GetAllUsersAsync);
+            Field<UserType>("user", 
+                arguments: new QueryArguments(
+                                    new QueryArgument<IntGraphType> { Name = "id" }),
+                resolve: GetUserByIdAsync);
         }
 
         private async Task<Todo[]> GetAllTodosAsync(ResolveFieldContext<object> context)
@@ -36,5 +40,14 @@ namespace Bnaya.Samples.GraphQL
             var data = await response.Content.ReadAsAsync<User[]>();
             return data;
         }
-    }
+ 
+        private async Task<User> GetUserByIdAsync(ResolveFieldContext<object> context)
+        {
+            int id = context.GetArgument<int>("id");
+            var response = await _httpClient.GetAsync($"{BASE_URL}users/{id}").ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            var data = await response.Content.ReadAsAsync<User>();
+            return data;
+        }
+   }
 }

@@ -1,0 +1,10 @@
+# NuGets
+- GraphQL
+- GraphiQL
+- GraphQL.Client
+
+# IoC
+Type definition may need to resolve data for joined or complex types,
+therefore it may need access to repository.
+Dependency Injection can be used in order to decouple it.
+Other alternative (if you expose the sub-type as public api, you can call it).

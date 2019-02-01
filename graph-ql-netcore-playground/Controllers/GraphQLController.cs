@@ -16,7 +16,7 @@ namespace Bnaya.Samples.Controllers
         private readonly ISchema _schema = new MainSchema();
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] GraphQlQuery query)
+        public async Task<IActionResult> Post([FromBody] GraphQlQueryParameters query)
         {
             var result = await _documentExecuter.ExecuteAsync(x =>
             {
