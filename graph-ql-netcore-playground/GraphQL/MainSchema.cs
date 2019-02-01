@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Bnaya.Samples.GraphQL
 {
-    public class ToDoSchema: Schema
+    public class MainSchema: Schema
     {
-        public ToDoSchema() 
+        public MainSchema() 
         {
-            Query = new ToDoQuery();
+            Query = new Queries();
             // Mutation = resolver.Resolve<NHLStatsMutation>();
         }
 

@@ -13,7 +13,7 @@ namespace Bnaya.Samples.Controllers
     public class GraphQlController : Controller
     {
         private readonly IDocumentExecuter _documentExecuter = new DocumentExecuter();
-        private readonly ISchema _schema = new ToDoSchema();
+        private readonly ISchema _schema = new MainSchema();
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] GraphQlQuery query)
