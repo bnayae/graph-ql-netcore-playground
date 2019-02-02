@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Bnaya.Samples.GraphQL.DTOs
+namespace Bnaya.Samples.GraphQLs.DTOs
 {
     public class User
     {

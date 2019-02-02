@@ -1,15 +1,20 @@
-﻿using GraphQL.Types;
+﻿using Bnaya.Samples.Services;
+using GraphQL.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Bnaya.Samples.GraphQL.DTOs
+namespace Bnaya.Samples.GraphQLs.DTOs
 {
     public class UserType: ObjectGraphType<User>
     {
-        public UserType()
+        private readonly IRepository _repository;
+
+        public UserType(IRepository repository)
         {
+            _repository = repository;
+
             Field(x => x.Id).Description("The Id");
             Field(x => x.Name, nullable: false).Description("The Name");
             Field(x => x.UserName, nullable: false).Description("The UserName");
@@ -20,14 +25,17 @@ namespace Bnaya.Samples.GraphQL.DTOs
             //Field(x => x.Company, nullable: true, type: typeof(CompanyType)).Description("The Company");
 
             Field(x => x.Company, nullable: true, type: typeof(CompanyType))
-                //.Resolve(c => c.Source.Company)
-            //Field(x => x.Company, nullable: true, type:typeof(ComplexGraphType<CompanyType>))
-                //.ResolveAsync(async context =>
-                //{
-                //    await Task.Delay(200).ConfigureAwait(false);
-                //    return null;
-                //})
                 .Description("The Company");
+
+            Field<ListGraphType<TodoType>>("todos",
+                      resolve: ResolveUserAsync,
+                      description: "The ref of the TODO's of this user");
+        }
+
+        private Task<Todo[]> ResolveUserAsync(ResolveFieldContext<User> context)
+        {
+            int usertId = context.Source.Id;
+            return _repository.GetTodosByUserIdAsync(usertId);
         }
     }
 }

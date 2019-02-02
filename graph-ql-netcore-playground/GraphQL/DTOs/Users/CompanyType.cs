@@ -1,7 +1,7 @@
 ﻿using GraphQL.Types;
 using System;
 
-namespace Bnaya.Samples.GraphQL.DTOs
+namespace Bnaya.Samples.GraphQLs.DTOs
 {
     public class CompanyType : ObjectGraphType<Company>
     {

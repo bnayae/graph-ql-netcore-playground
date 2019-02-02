@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Bnaya.Samples.GraphQL
+namespace Bnaya.Samples.GraphQLs
 {
     public class GraphQlQueryParameters
     {

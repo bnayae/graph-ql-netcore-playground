@@ -1,6 +1,6 @@
 ﻿using GraphQL.Types;
 
-namespace Bnaya.Samples.GraphQL.DTOs
+namespace Bnaya.Samples.GraphQLs.DTOs
 {
     public class GeoType: ObjectGraphType<Geo>
     {

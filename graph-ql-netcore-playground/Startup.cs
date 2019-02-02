@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Bnaya.Samples.GraphQL;
+using Bnaya.Samples.GraphQLs;
+using Bnaya.Samples.GraphQLs.DTOs;
+using Bnaya.Samples.Services;
 using GraphiQl;
 using GraphQL;
 using GraphQL.Types;
@@ -33,8 +35,25 @@ namespace Bnaya.Samples
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.AddSingleton<IRepository, Repository>();
             services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
-            services.AddSingleton<ISchema, MainSchema>();
+            services.AddSingleton<Queries>();
+
+            RegisterTypes(services);
+
+            services.AddSingleton<ISchema>(
+                            s => new MainSchema(
+                                            new FuncDependencyResolver(
+                                                        type => (IGraphType)s.GetRequiredService(type))));
+        }
+
+        private void RegisterTypes(IServiceCollection services)
+        {
+            services.AddSingleton<TodoType>();
+            services.AddSingleton<UserType>();
+            services.AddSingleton<AddressType>();
+            services.AddSingleton<CompanyType>();
+            services.AddSingleton<GeoType>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -5,15 +5,22 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using GraphQL.Types;
 using GraphQL;
-using Bnaya.Samples.GraphQL;
+using Bnaya.Samples.GraphQLs;
 
 namespace Bnaya.Samples.Controllers
 {
     [Route(Startup.GraphQlPath)]
     public class GraphQlController : Controller
     {
-        private readonly IDocumentExecuter _documentExecuter = new DocumentExecuter();
-        private readonly ISchema _schema = new MainSchema();
+        private readonly IDocumentExecuter _documentExecuter;
+        private readonly ISchema _schema; 
+        
+        public GraphQlController(ISchema schema, IDocumentExecuter documentExecuter)
+        {
+            _schema = schema;
+            _documentExecuter = documentExecuter;
+
+        }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] GraphQlQueryParameters query)

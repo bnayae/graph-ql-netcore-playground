@@ -1,4 +1,4 @@
-﻿namespace Bnaya.Samples.GraphQL.DTOs
+﻿namespace Bnaya.Samples.GraphQLs.DTOs
 {
     public class Company
     {

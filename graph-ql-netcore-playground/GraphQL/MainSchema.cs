@@ -1,4 +1,5 @@
-﻿using Bnaya.Samples.GraphQL.DTOs;
+﻿using Bnaya.Samples.GraphQLs.DTOs;
+using Bnaya.Samples.Services;
 using GraphQL;
 using GraphQL.Types;
 using System;
@@ -6,13 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Bnaya.Samples.GraphQL
+namespace Bnaya.Samples.GraphQLs
 {
     public class MainSchema: Schema
     {
-        public MainSchema() 
+        public MainSchema(IDependencyResolver resolver) : base(resolver)
         {
-            Query = new Queries();
+            Query = resolver.Resolve<Queries>(); 
             // Mutation = resolver.Resolve<NHLStatsMutation>();
         }
 
