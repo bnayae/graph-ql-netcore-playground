@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Bnaya.Samples.Services
+namespace Bnaya.Samples.Repositories
 {
     public class Repository : IRepository
     {

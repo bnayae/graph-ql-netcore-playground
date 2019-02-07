@@ -7,6 +7,7 @@ using Bnaya.Samples.GraphQLs.DTOs;
 using Bnaya.Samples.Repositories;
 using GraphiQl;
 using GraphQL;
+using GraphQL.DataLoader;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,6 +17,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using GraphQL.Execution;
+
+// credit: https://github.com/graphql-dotnet/graphql-dotnet/blob/master/docs/src/dataloader.md
 
 namespace Bnaya.Samples
 {
@@ -33,6 +37,12 @@ namespace Bnaya.Samples
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // ----------- Data Loader support  -------------------
+            services.AddSingleton<IDataLoaderContextAccessor, DataLoaderContextAccessor>();
+            services.AddSingleton<IDocumentExecutionListener, DataLoaderDocumentListener>();
+            // ----------- Data Loader support  -------------------
+
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddSingleton<IRepository, Repository>();
@@ -55,6 +65,7 @@ namespace Bnaya.Samples
             services.AddSingleton<CompanyType>();
             services.AddSingleton<GeoType>();
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

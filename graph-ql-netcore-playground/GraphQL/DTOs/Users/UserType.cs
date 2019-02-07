@@ -1,4 +1,4 @@
-﻿using Bnaya.Samples.Services;
+﻿using Bnaya.Samples.Repositories;
 using GraphQL.Types;
 using System;
 using System.Collections.Generic;
