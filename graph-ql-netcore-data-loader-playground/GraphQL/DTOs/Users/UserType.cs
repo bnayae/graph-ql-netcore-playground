@@ -31,16 +31,16 @@ namespace Bnaya.Samples.GraphQLs.DTOs
                 .Description("The Company");
 
             Field<ListGraphType<TodoType>>("todos",
-                      resolve: ResolveUserAsync,
+                      resolve: ResolveTodosAsync,
                       description: "The ref of the TODO's of this user");
         }
 
-        private Task<Todo[]> ResolveUserAsync(ResolveFieldContext<User> context)
+        private Task<Todo[]> ResolveTodosAsync(ResolveFieldContext<User> context)
         {
             // Get the context of the query
             var queryContext = _dataLoaderContextAccessor.Context;
-            // Get or add a batch loader with the key "GetUsersById"
-            // The loader will call GetUsersByIdAsync for each batch of keys
+            // Get or add a batch loader with specific single request (context) level caching key
+            // The loader will fetch data from the repository
             // The underline framework will ignore the per item duplication
             var loader = queryContext.GetOrAddBatchLoader<int, Todo[]>("GetTodos", async ids =>
             {
@@ -52,8 +52,7 @@ namespace Bnaya.Samples.GraphQLs.DTOs
                 return split.ToDictionary(m => m.Id, m=> m.Items);
             });
 
-            // Add this UserId to the pending keys to fetch
-            // The task will complete once the GetUsersByIdAsync() returns with the batched results
+            // build the batch data
             return loader.LoadAsync(context.Source.Id);
         }
     }

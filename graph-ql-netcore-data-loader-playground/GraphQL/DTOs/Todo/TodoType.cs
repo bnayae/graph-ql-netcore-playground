@@ -38,13 +38,12 @@ namespace Bnaya.Samples.GraphQLs.DTOs
         {
             // Get the context of the query
             var queryContext = _dataLoaderContextAccessor.Context;
-            // Get or add a batch loader with the key "GetUsersById"
-            // The loader will call GetUsersByIdAsync for each batch of keys
+            // Get or add a batch loader with specific single request (context) level caching key
+            // The loader will fetch data from the repository
             // The underline framework will ignore the per item duplication
             var loader = queryContext.GetOrAddBatchLoader<int, User>("GetUsersByIds", _repository.GetUserByIdsAsync);
 
-            // Add this UserId to the pending keys to fetch
-            // The task will complete once the GetUsersByIdAsync() returns with the batched results
+            // build the batch data
             return loader.LoadAsync(context.Source.UserId);
         }
     }

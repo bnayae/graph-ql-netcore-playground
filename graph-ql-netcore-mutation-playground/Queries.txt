@@ -1,0 +1,28 @@
+﻿query {
+  question (id: 2) {
+    title,
+    body,
+    user {
+      email
+    },
+    review {
+      title
+    }
+  }
+}
+
+------------------------------------------
+
+query {
+  questions {
+    review {
+       title,
+       user {
+        questions
+        {
+          title
+        }
+      }
+    }
+  }
+}

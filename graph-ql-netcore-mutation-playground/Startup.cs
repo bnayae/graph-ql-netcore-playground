@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Bnaya.Samples.GraphQLs;
-using Bnaya.Samples.GraphQLs.DTOs;
 using Bnaya.Samples.Repositories;
-using GraphiQl;
+using Bnaya.Samples.GraphQLs.Definitions;
+using Bnaya.Samples.GraphQLs.DTOs;
 using GraphQL;
 using GraphQL.DataLoader;
+using GraphQL.Execution;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -17,9 +17,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using GraphQL.Execution;
+using Bnaya.Samples.GraphQLs;
+using GraphiQl;
 
-// credit: https://github.com/graphql-dotnet/graphql-dotnet/blob/master/docs/src/dataloader.md
+// credit: https://graphql-dotnet.github.io/docs/getting-started/mutations/
 
 namespace Bnaya.Samples
 {
@@ -37,7 +38,7 @@ namespace Bnaya.Samples
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // ----------- Data Loader support  -------------------
             services.AddSingleton<IDataLoaderContextAccessor, DataLoaderContextAccessor>();
@@ -59,13 +60,10 @@ namespace Bnaya.Samples
 
         private void RegisterTypes(IServiceCollection services)
         {
-            services.AddSingleton<TodoType>();
+            services.AddSingleton<QuestionType>();
             services.AddSingleton<UserType>();
-            services.AddSingleton<AddressType>();
-            services.AddSingleton<CompanyType>();
-            services.AddSingleton<GeoType>();
+            services.AddSingleton<ReviewType>();
         }
-
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -76,6 +74,7 @@ namespace Bnaya.Samples
             }
             else
             {
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
