@@ -27,12 +27,7 @@ namespace Bnaya.Samples.GraphQLs
               arguments: new QueryArguments(
                 new QueryArgument<NonNullGraphType<AddQuestionInputType>> { Name = "question" }
               ),
-              resolve: context =>
-              {
-                  var question = context.GetArgument<Question>("question");
-                  Question result = _repository.AddQuestionAsync(question).Result; // TODO: contribution of async flow
-                  return result;
-              });
+              resolve: AddAsync);
 
             Field<QuestionType>(
               "upadteQuestion",
@@ -40,13 +35,22 @@ namespace Bnaya.Samples.GraphQLs
                 new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "id" },
                 new QueryArgument<NonNullGraphType<UpdateQuestionInputType>> { Name = "question" }
               ),
-              resolve: context =>
-              {
-                  var id = context.GetArgument<int>("id");
-                  var question = context.GetArgument<QuestionUpdater>("question");
-                  Question result = _repository.UpdateQuestionAsync(id, question).Result; // TODO: contribution of async flow
-                  return result;
-              });
+              resolve: UpdateAsync);
+        }
+
+        private async Task<Question> AddAsync(ResolveFieldContext<object> context)
+        {
+            var question = context.GetArgument<Question>("question");
+            Question result = await _repository.AddQuestionAsync(question); 
+            return result;
+        }
+
+        private async Task<Question> UpdateAsync(ResolveFieldContext<object> context)
+        {
+            var id = context.GetArgument<int>("id");
+            var question = context.GetArgument<QuestionUpdater>("question");
+            Question result = await _repository.UpdateQuestionAsync(id, question);
+            return result;
         }
     }
 }
