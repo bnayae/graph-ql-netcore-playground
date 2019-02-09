@@ -14,7 +14,7 @@ namespace Bnaya.Samples.GraphQLs
         public MainSchema(IDependencyResolver resolver) : base(resolver)
         {
             Query = resolver.Resolve<Queries>(); 
-            // Mutation = resolver.Resolve<NHLStatsMutation>();
+            Mutation = resolver.Resolve<Mutations>();
         }
 
         

@@ -1,7 +1,12 @@
-﻿namespace Bnaya.Samples.GraphQLs.DTOs
+﻿using System;
+
+namespace Bnaya.Samples.GraphQLs.DTOs
 {
     public class Review
     {
+        [Obsolete("For serialization only", true)]
+        public Review() { }
+
         public Review(int id, string title, string body, int userId, int questionId)
         {
             Id = id;
@@ -11,10 +16,10 @@
             QuestionId = questionId;
         }
 
-        public readonly int Id;
-        public readonly string Title;
-        public readonly string Body;
-        public readonly int UserId;
-        public readonly int QuestionId;
+        public int Id { get; private set; }
+        public string Title { get; private set; }
+        public string Body { get; private set; }
+        public int UserId { get; private set; }
+        public int QuestionId { get; private set; }
     }
 }

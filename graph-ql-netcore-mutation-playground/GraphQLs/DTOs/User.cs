@@ -1,7 +1,12 @@
-﻿namespace Bnaya.Samples.GraphQLs.DTOs
+﻿using System;
+
+namespace Bnaya.Samples.GraphQLs.DTOs
 {
     public class User
     {
+        [Obsolete("For serialization only", true)]
+        public User() { }
+
         public User(
             int id,
             string name,
@@ -12,8 +17,8 @@
             Email = email;
         }
 
-        public readonly int Id;
-        public readonly string Name;
-        public readonly string Email;
+        public int Id { get; private set; }
+        public string Name { get; private set; }
+        public string Email { get; private set; }
     }
 }

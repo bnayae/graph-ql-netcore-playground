@@ -26,3 +26,42 @@ query {
     }
   }
 }
+
+----------------------------------------------
+
+mutation add {
+  addQuestion (question:{
+    title:"new question",
+    body:"what is ...", 
+		creatorId:1
+  }) {
+    id,
+	title,
+    creatorId
+  }
+}
+
+----------------------------------------------
+
+mutation update {
+  upadteQuestion(question: {
+      id: 4, 
+      title:"CHANGED", 
+      creatorId: 100}) {
+    id
+    title
+    creatorId
+  }
+}
+
+----------------------------------------------
+
+mutation {
+    upd1: upadteQuestion(id:1, question: {title:"has changed"}){id, body},
+    upd2: upadteQuestion(id:2, question: {body:"change it"}){id, title},
+    upd3: upadteQuestion(id:3, question: {title:"also changed", creatorId:100}){id, title, creatorId},
+  	add1: addQuestion (question: {title:"batch add 1", body:"bla bla 1", creatorId:1}){id},
+  	add2: addQuestion (question: {title:"batch add 2", body:"bla bla 2", creatorId:10}){id},
+  	add3: addQuestion (question: {title:"batch add 3", body:"bla bla 3", creatorId:100}){id},
+    upadteQuestion(id:4, question: {title:"anonymous", creatorId:10}){title, creatorId}
+}

@@ -48,7 +48,6 @@ namespace Bnaya.Samples
 
             services.AddSingleton<IRepository, Repository>();
             services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
-            services.AddSingleton<Queries>();
 
             RegisterTypes(services);
 
@@ -60,9 +59,14 @@ namespace Bnaya.Samples
 
         private void RegisterTypes(IServiceCollection services)
         {
+            services.AddSingleton<Queries>();
             services.AddSingleton<QuestionType>();
             services.AddSingleton<UserType>();
             services.AddSingleton<ReviewType>();
+
+            services.AddSingleton<Mutations>();
+            services.AddSingleton<AddQuestionInputType>();
+            services.AddSingleton<UpdateQuestionInputType>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

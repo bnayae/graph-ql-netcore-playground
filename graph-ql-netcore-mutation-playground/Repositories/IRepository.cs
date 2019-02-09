@@ -6,6 +6,9 @@ namespace Bnaya.Samples.Repositories
 {
     public interface IRepository
     {
+        Task<Question> AddQuestionAsync(Question question);
+        Task<Question> UpdateQuestionAsync(int id, QuestionUpdater question);
+
         Task<Question[]> GetAllQuestionAsync();
         Task<IDictionary<int, Question>> GetQuestionsByIdsAsync(IEnumerable<int> ids);
         Task<IDictionary<int, Question>> GetQuestionsByIdsAsync(params int[] ids);

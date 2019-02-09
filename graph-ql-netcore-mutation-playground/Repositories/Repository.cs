@@ -12,9 +12,9 @@ namespace Bnaya.Samples.Repositories
     {
         private readonly ConcurrentDictionary<int, Question> _questions = new ConcurrentDictionary<int, Question>()
         {
-            [1] = new Question(1, "seed 1", "bla bla bla 1", 10),
-            [2] = new Question(2, "seed 2", "bla bla bla 2", 10),
-            [3] = new Question(3, "seed 3", "bla bla bla 3", 100),
+            [1] = new Question("seed 1", "bla bla bla 1", 10),
+            [2] = new Question("seed 2", "bla bla bla 2", 10),
+            [3] = new Question("seed 3", "bla bla bla 3", 100),
         };
         private readonly ConcurrentDictionary<int, User> _users = new ConcurrentDictionary<int, User>()
         {
@@ -33,6 +33,29 @@ namespace Bnaya.Samples.Repositories
             [5] = new Review(5, "like", "keep writing", 102, 2),
         };
 
+
+        public Task<Question> AddQuestionAsync(Question question)
+        {
+            if(question.Id != 0)
+                throw new System.Data.InvalidConstraintException("already exists");
+            question.Increment();
+            if (!_questions.TryAdd(question.Id, question))
+                throw new System.Data.DuplicateNameException();
+            return Task.FromResult(question);
+        }
+
+        public Task<Question> UpdateQuestionAsync(int id, QuestionUpdater updater)
+        {
+            if(!_questions.TryGetValue(id, out var question))
+                throw new System.Data.DataException("Not exists");
+            if (updater.Title != null)
+                question.Title = updater.Title;
+            if (updater.Body != null)
+                question.Body = updater.Body;
+            if (updater.CreatorId != null)
+                question.CreatorId = updater.CreatorId.Value;
+            return Task.FromResult(question);
+        }
 
         public Task<Question[]> GetAllQuestionAsync() => Task.FromResult(_questions.Values.ToArray());
 
